@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MISS.IA</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #ffffff;
+    font-family: Arial, sans-serif;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo {
+    font-size: 52px;
+    font-weight: 700;
+    margin-bottom: 35px;
+    letter-spacing: -2px;
+}
+
+.pesquisa {
+    width: 90%;
+    max-width: 700px;
+
+    display: flex;
+    align-items: center;
+
+    border: 1px solid #d5d5d5;
+    border-radius: 40px;
+    padding: 6px 8px 6px 20px;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+input {
+    flex: 1;
+
+    border: none;
+    outline: none;
+
+    font-size: 17px;
+    padding: 14px 0;
+
+    background: transparent;
+}
+
+button {
+    border: none;
+    border-radius: 30px;
+
+    background: #111111;
+    color: white;
+
+    padding: 13px 20px;
+
+    font-size: 15px;
+    cursor: pointer;
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+#resultado {
+    width: 90%;
+    max-width: 700px;
+
+    margin-top: 30px;
+
+    font-size: 17px;
+    line-height: 1.6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="logo">
+    MISS.IA
+</div>
+
+<div class="pesquisa">
+
+    <input
+        id="pergunta"
+        type="text"
+        placeholder="Pergunte qualquer coisa..."
+    >
+
+    <button onclick="pesquisar()">
+        Pesquisar
+    </button>
+
+</div>
+
+<div id="resultado"></div>
+
+<script>
+
+function pesquisar() {
+
+    const pergunta =
+        document.getElementById("pergunta").value;
+
+    const resultado =
+        document.getElementById("resultado");
+
+    if (pergunta.trim() === "") {
+        resultado.textContent =
+            "Digite uma pergunta.";
+        return;
+    }
+
+    resultado.textContent =
+        "A MISS.IA ainda está sendo construída... 🚀";
+}
+
+</script>
+
+</body>
+</html>
