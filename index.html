@@ -1,133 +1,154 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>MISS.IA</title>
+    <title>MISS.IA</title>
 
-<style>
-* {
-    box-sizing: border-box;
-}
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
 
-body {
-    margin: 0;
-    min-height: 100vh;
-    background: #ffffff;
-    font-family: Arial, sans-serif;
+        h1 {
+            font-size: 48px;
+            margin-bottom: 30px;
+        }
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
+        .caixa {
+            width: 90%;
+            max-width: 600px;
+            display: flex;
+            gap: 10px;
+        }
 
-.logo {
-    font-size: 52px;
-    font-weight: 700;
-    margin-bottom: 35px;
-    letter-spacing: -2px;
-}
+        input {
+            flex: 1;
+            padding: 16px;
+            border: 1px solid #ccc;
+            border-radius: 30px;
+            font-size: 16px;
+            outline: none;
+        }
 
-.pesquisa {
-    width: 90%;
-    max-width: 700px;
+        button {
+            padding: 16px 24px;
+            border: none;
+            border-radius: 30px;
+            background: black;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-    display: flex;
-    align-items: center;
+        button:disabled {
+            opacity: 0.6;
+        }
 
-    border: 1px solid #d5d5d5;
-    border-radius: 40px;
-    padding: 6px 8px 6px 20px;
-
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
-
-input {
-    flex: 1;
-
-    border: none;
-    outline: none;
-
-    font-size: 17px;
-    padding: 14px 0;
-
-    background: transparent;
-}
-
-button {
-    border: none;
-    border-radius: 30px;
-
-    background: #111111;
-    color: white;
-
-    padding: 13px 20px;
-
-    font-size: 15px;
-    cursor: pointer;
-}
-
-button:active {
-    transform: scale(0.97);
-}
-
-#resultado {
-    width: 90%;
-    max-width: 700px;
-
-    margin-top: 30px;
-
-    font-size: 17px;
-    line-height: 1.6;
-}
-</style>
+        #resultado {
+            width: 90%;
+            max-width: 600px;
+            margin-top: 30px;
+            font-size: 17px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="logo">
-    MISS.IA
-</div>
+    <h1>MISS.IA</h1>
 
-<div class="pesquisa">
+    <div class="caixa">
+        <input
+            id="pergunta"
+            type="text"
+            placeholder="Pergunte alguma coisa..."
+        >
 
-    <input
-        id="pergunta"
-        type="text"
-        placeholder="Pergunte qualquer coisa..."
-    >
+        <button id="botao" onclick="pesquisar()">
+            Pesquisar
+        </button>
+    </div>
 
-    <button onclick="pesquisar()">
-        Pesquisar
-    </button>
+    <div id="resultado"></div>
 
-</div>
+    <script>
 
-<div id="resultado"></div>
+        async function pesquisar() {
 
-<script>
+            const pergunta =
+                document.getElementById("pergunta").value;
 
-function pesquisar() {
+            const resultado =
+                document.getElementById("resultado");
 
-    const pergunta =
-        document.getElementById("pergunta").value;
+            const botao =
+                document.getElementById("botao");
 
-    const resultado =
-        document.getElementById("resultado");
+            if (pergunta.trim() === "") {
+                resultado.textContent =
+                    "Digite uma pergunta.";
+                return;
+            }
 
-    if (pergunta.trim() === "") {
-        resultado.textContent =
-            "Digite uma pergunta.";
-        return;
-    }
+            resultado.textContent =
+                "Pensando... 🧠";
 
-    resultado.textContent =
-        "A MISS.IA ainda está sendo construída... 🚀";
-}
+            botao.disabled = true;
 
-</script>
+            try {
+
+                const resposta = await fetch(
+                    "https://miss-ia.onrender.com/perguntar",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            pergunta: pergunta
+                        })
+                    }
+                );
+
+                const dados = await resposta.json();
+
+                if (dados.resposta) {
+
+                    resultado.textContent =
+                        dados.resposta;
+
+                } else {
+
+                    resultado.textContent =
+                        "Não consegui responder agora.";
+                }
+
+            } catch (erro) {
+
+                resultado.textContent =
+                    "Erro ao conectar com a MISS.IA.";
+
+            } finally {
+
+                botao.disabled = false;
+
+            }
+        }
+
+    </script>
 
 </body>
 </html>
