@@ -16,7 +16,7 @@ app.post("/perguntar", async (req, res) => {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          model: "meta-llama/Llama-3.2-3B-Instruct",
+          model: "meta-llama/Llama-3.1-8B-Instruct",
           messages: [
             {
               role: "user",
